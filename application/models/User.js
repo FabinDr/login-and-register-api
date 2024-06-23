@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 // import validator from 'validator'
 // import JsonWebTokenError from 'jsonwebtoken'
@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     birthday: {
         type: Date
     },
-    genero: {
+    gender: {
         type: String,
         enum: ['M', 'F'],
         default: null
@@ -46,11 +46,11 @@ const UserSchema = new mongoose.Schema({
 
 //pre save antes de ir para o banco de dados
 UserSchema.pre("save", function (next) {
-    //se refere ao doc de user atuar sendo salvo
+    //se refere ao doc de user atual sendo salvo
     const user = this;
 
     if (!user.isModified("password")) return next();
-    //salt gera dados aleatórios
+    //salt gera dados aleatórios 10 é o numero de iterações do salt
     bcrypt.genSalt(10, (err, salt) => {
         if (err) return next(err);
 

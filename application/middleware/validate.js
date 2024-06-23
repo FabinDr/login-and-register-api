@@ -9,5 +9,10 @@ const Validacao = (req, res, next) => {
     if (!errors.isEmpty()) {
         let error = {}
         errors.array().map((err) => (error[err.parm] = err.msg))
+        return res.status(422).json({ error });
     }
+    next();
 }
+
+export default Validacao;
+

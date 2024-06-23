@@ -1,0 +1,7 @@
+Um middleware é um manipulador que tem acesso ao objeto de solicitação e resposta. Pode ser usado para modificar solicitações ou respostas.
+
+Basicamente, o middleware funciona como um intemerdiário na nossa api. vai interceptar o req antes de ir ao destino final. vai pegar a req e levar para uma rota.
+
+Vamos usar a função ValidationResult para retorna uma serie de erros se houver
+
+ou seja, essa função vai validar o objeto de solicitação e retorna uma serie de erros caso for necessario 

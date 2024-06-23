@@ -1,11 +1,14 @@
 import express from "express";
+import Auth from './auth.js'
+
 
 const app = express();
 
+app.use('/application/auth', Auth)
 //Para desabilitar o cabeçalo das resposta HTTP
 app.disable('x-powered-by');
 
-app.get("/aplication", (req, res) => {
+app.get("/application", (req, res) => {
     try {
         res.status(200).json({
             status: 'Success',
@@ -19,5 +22,7 @@ app.get("/aplication", (req, res) => {
         })
     }
 })
+
+
 
 export default app;

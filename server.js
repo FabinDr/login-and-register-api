@@ -3,8 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectToDataBase from './application/database/mongoose.js';
 import { PORT } from "./application/config/index.js";
-import app from "./application/router/index.js";
-import { config } from "dotenv";
+import app from "./application/routes/index.js";
 
 const server = express();
 
