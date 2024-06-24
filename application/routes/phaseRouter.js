@@ -6,6 +6,6 @@ const router = express.Router();
 //Fases
 router.post('/create', createPhase); // Criar uma nova fase
 router.get('/listPhase', listPhase); // Obter todas as fases
-router.get('/PhaseBy', PhaseById); // Obter uma fase pelo ID
+router.get('/PhaseById', PhaseById); // Obter uma fase pelo ID
 
 export default router

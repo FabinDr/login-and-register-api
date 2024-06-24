@@ -58,7 +58,7 @@ export async function PhaseById(req, res) {
                 status: "failed",
                 data: [],
                 message: "Não foi possível encontrar essa fase.",
-                error: "<id> não encontrada"
+                error: "<id> não encontrado"
             });
         }
         res.status(200).json({
