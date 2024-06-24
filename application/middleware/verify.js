@@ -34,7 +34,7 @@ export async function Verify(req, res, next) {
             const user = await User.findById(id); // busca o user com esse ´id´ no Database
             const { password, ...data } = user._doc; // vai retornar objeto do usuário sem a senha
 
-            req.user = data; // vai colocar o objeto de dados do usuário em req.user
+            req.user = data; // vai colcar o objeto de dads do usuário em req.user
             next(); //continua a exec. a rota
         });
     } catch (err) {

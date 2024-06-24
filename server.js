@@ -14,7 +14,7 @@ server.use(cookieParser());
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
 
-//Connect DATABASE
+//DATABASE
 connectToDataBase()
 
 server.use(app);

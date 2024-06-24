@@ -15,7 +15,6 @@ app.get("/application/user", Verify, (req, res) => {
     });
 });
 
-
 app.get("/application", (req, res) => {
     try {
         res.status(200).json({
@@ -30,7 +29,5 @@ app.get("/application", (req, res) => {
         })
     }
 })
-
-
 
 export default app;

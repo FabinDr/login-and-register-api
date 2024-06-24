@@ -6,7 +6,7 @@ import { SECRET_TOKEN } from '../config/index.js'
 const UserSchema = new mongoose.Schema({
     fullname: {
         type: String,
-        require: [true, "ATENÇAO! O nome completo é obrigatório!"],
+        require: [true, "ATENÇAO! O seu nome completo é obrigatório!"],
     },
     username: {
         type: String,

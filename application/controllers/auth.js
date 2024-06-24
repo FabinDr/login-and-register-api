@@ -27,7 +27,7 @@ export async function Register(req, res) {
         const savedUser = await newUser.save();
 
         //Vai retornar as informações do usuário exceto a senha.
-        const { password, role, ...user_data } = savedUser._doc;
+        const { password, ...user_data } = savedUser._doc;
 
         res.status(200).json({
             status: "success",
