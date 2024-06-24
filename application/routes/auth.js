@@ -1,6 +1,6 @@
 //rota de registro
 import express from 'express'
-import { Register, Login } from '../controllers/auth.js'
+import { Register, Login, Logout } from '../controllers/auth.js'
 import Validacao from '../middleware/validate.js'
 import { check } from 'express-validator'
 
@@ -43,7 +43,6 @@ router.post(
 );
 
 // Rota de Login ------------------------
-
 router.post(
     "/login",
     check("email")
@@ -54,5 +53,9 @@ router.post(
     Validacao,
     Login
 )
+
+//Rota de Logout
+router.get('/logout', Logout);
+
 
 export default router;

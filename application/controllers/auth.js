@@ -1,4 +1,5 @@
 import User from '../models/user.js'
+import blacklist from '../models/blacklist.js'
 import bcrypt from 'bcrypt';
 
 //Para registrar um usuário
@@ -52,7 +53,7 @@ export async function Login(req, res) {
                 status: "failed",
                 data: [],
                 message:
-                    "E-mail ou senha inválidos. Por favor, tente novamente com as credenciais corretas.",
+                    "Conta não existe. Por favor, tente novamente com as credenciais corretas.",
             });
         // se o User existe
         // verificando/validando senha
@@ -71,6 +72,16 @@ export async function Login(req, res) {
         //Retornar informações do usuário exceto a senha.
         const { password, ...user_data } = user._doc;
 
+        let options = {
+            maxAge: 3600000,
+            httoOnly: true,
+            secure: true,
+            sameSite: "None",
+        };
+
+        const token = user.generateAccessJWT();
+        res.cookie("SessionID", token, options);
+
         res.status(200).json({
             status: "success",
             data: [user_data],
@@ -86,6 +97,45 @@ export async function Login(req, res) {
     }
     res.end();
 }
+
+
+
+//loigout e lista negra do banco de dados
+
+export async function Logout(req, res) {
+    try {
+        const authHeader = req.headers['cookie'];
+
+        if (!authHeader) return res.sendStatus(204);
+        const cookie = authHeader.split('=')[1];
+
+        const accessToken = cookie.split(';')[0];
+        const checkIfBlacklisted = await Blacklist.findOne({ token: accessToken });
+
+        if (checkIfBlacklisted) return res.sendStatus(204);
+
+        const newBlacklist = new Blacklist({
+            token: accessToken,
+        });
+
+        await newBlacklist.save();
+
+        res.setHeader('Clear-Site-Data', '"cookies"');
+        res.status(200).json({ message: 'You are logged out!' });
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: 'Ocorreu um erro interno no Servidor durante a operação.',
+        });
+    }
+    res.end();
+}
+
+
+
+
+
+
 
 
 // export default Register

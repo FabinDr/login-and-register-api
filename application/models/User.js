@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'
+import { SECRET_TOKEN } from '../config/index.js'
 
 // import validator from 'validator'
 // import JsonWebTokenError from 'jsonwebtoken'
@@ -63,5 +65,16 @@ UserSchema.pre("save", function (next) {
     })
 
 })
+
+//função para gerar tokens no login
+UserSchema.methods.generateAccessJWT = function () {
+    let payload = {
+        id: this._id,
+    };
+    return jwt.sign(payload, SECRET_TOKEN, {
+        expiresIn: '60m',
+    });
+};
+
 
 export default mongoose.model("Users", UserSchema);
