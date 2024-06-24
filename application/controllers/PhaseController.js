@@ -12,8 +12,8 @@ export async function createPhase(req, res) {
 
         res.status(200).json({
             status: "success",
+            messege: "Sucesso! A fase foi criada",
             data: [savedPhase],
-            messege: "Sucesso! A fase foi criada"
         })
     } catch (err) {
         res.status(500).json({
@@ -33,8 +33,8 @@ export async function listPhase(req, res) {
         const phase = await Phase.find();
         res.status(200).json({
             status: "success",
-            data: [phase],
-            messege: "Lista de fases obtidas com sucesso"
+            messege: "Lista de fases obtidas com sucesso",
+            data: [phase]
         })
     } catch (err) {
         res.status(500).json({
@@ -63,8 +63,8 @@ export async function PhaseById(req, res) {
         }
         res.status(200).json({
             status: "success",
-            data: [phase],
-            message: "Fase encontrada com sucesso!"
+            message: "Fase encontrada com sucesso!",
+            data: [phase]
         })
     } catch (err) {
         res.status(500).json({
@@ -94,16 +94,17 @@ export async function updatePhase(req, res) {
     try {
         const updatedPhase = await Phase.findByIdAndUpdate(id, { namephase, orderphase, pointsphase }, { new: true });
 
+        //verifica se a fase foi atualizada e encontrada dps de (findByIdAndUpdate) 
         if (!updatedPhase) {
             return res.status(404).json({
-                success: false,
+                status: "success",
                 message: "Não foi encontrada uma fase com o identificador informado",
                 error: 'Fase não encontrada'
             });
         }
 
         return res.json({
-            success: true,
+            status: "success",
             message: "Fase atualizada com sucesso!",
             data: [updatedPhase]
         });
@@ -112,7 +113,7 @@ export async function updatePhase(req, res) {
             status: "error",
             code: 500,
             data: [],
-            messege: "Ocorreu um erro interno no Servidor durante a operação."
+            message: "Ocorreu um erro interno no Servidor durante a operação."
         });
     }
     res.end();
@@ -132,8 +133,8 @@ export async function deletePhase(req, res) {
         }
         res.status(200).json({
             status: "success",
-            data: [deletePhase],
-            message: "Fase deletada com sucesso!"
+            message: "Fase deletada com sucesso!",
+            data: [deletePhase]
         });
     }
     catch (err) {
