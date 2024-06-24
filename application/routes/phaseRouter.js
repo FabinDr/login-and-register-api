@@ -4,8 +4,8 @@ import { createPhase, listPhase, PhaseById } from "../controllers/PhaseControlle
 const router = express.Router();
 
 //Fases
-router.post('/create', createPhase); // Criar uma nova fase
-router.get('/listPhase', listPhase); // Obter todas as fases
-router.get('/PhaseById', PhaseById); // Obter uma fase pelo ID
+router.post('/create', createPhase);
+router.get('/listPhase', listPhase);
+router.get('/PhaseById', PhaseById);
 
 export default router
