@@ -1,5 +1,6 @@
 import express from 'express'
 import { Register, Login, Logout } from '../controllers/auth.js'
+import { listUser, deleteUser } from "../controllers/UserController.js"
 import Validacao from '../middleware/validate.js'
 import { check } from 'express-validator'
 
@@ -53,6 +54,14 @@ router.post(
 
 //Rota de Logout
 router.get('/logout', Logout);
+
+//ROTAS CRUD PARA USER
+router.get('/listUser', listUser);// lista User
+router.delete('/deleteUser/:id', deleteUser);
+
+
+
+
 
 
 export default router;
