@@ -1,10 +1,11 @@
 import express from "express";
 import Auth from './auth.js'
+import phaseRouter from "./phaseRouter.js"
 import { Verify } from "../middleware/verify.js";
 
 const app = express();
 
-app.use('/application/auth', Auth)
+
 //Para desabilitar o cabeçalo das resposta HTTP
 app.disable('x-powered-by');
 
@@ -14,6 +15,11 @@ app.get("/application/user", Verify, (req, res) => {
         message: "Bem-vindo",
     });
 });
+
+//Rotas
+app.use('/application/auth', Auth)
+app.use('/application/phases', phaseRouter);
+
 
 app.get("/application", (req, res) => {
     try {
