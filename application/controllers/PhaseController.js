@@ -76,3 +76,73 @@ export async function PhaseById(req, res) {
     }
     res.end();
 }
+
+//Update/ Atualizar
+export async function updatePhase(req, res) {
+    const { id } = req.params;
+    const { namephase, orderphase, pointsphase } = req.body;
+
+    if (!id) {
+        return res.status(400).json({
+            status: "failed",
+            data: [],
+            message: "O identificador da fase não foi informado. " +
+                "Por favor, forneça um valor válido para o campo 'phase_id'.",
+            error: "<phase_id> não foi informado"
+        });
+    }
+    try {
+        const updatedPhase = await Phase.findByIdAndUpdate(id, { namephase, orderphase, pointsphase }, { new: true });
+
+        if (!updatedPhase) {
+            return res.status(404).json({
+                success: false,
+                message: "Não foi encontrada uma fase com o identificador informado",
+                error: 'Fase não encontrada'
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: "Fase atualizada com sucesso!",
+            data: [updatedPhase]
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            code: 500,
+            data: [],
+            messege: "Ocorreu um erro interno no Servidor durante a operação."
+        });
+    }
+    res.end();
+}
+
+//Delete
+export async function deletePhase(req, res) {
+    const { id } = req.params;
+    try {
+        const deletePhase = await Phase.findByIdAndDelete(id);
+        if (!deletePhase) {
+            return res.status(404).json({
+                status: "failed",
+                data: [],
+                message: "Fase não encontrada."
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            data: [deletePhase],
+            message: "Fase deletada com sucesso!"
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            status: "error",
+            code: 500,
+            data: [],
+            message: "Ocorreu um erro interno no Seridor durante a operação."
+        });
+    }
+    res.end();
+}
