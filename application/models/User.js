@@ -3,9 +3,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 import { SECRET_TOKEN } from '../config/index.js'
 
-// import validator from 'validator'
-// import JsonWebTokenError from 'jsonwebtoken'
-
 const UserSchema = new mongoose.Schema({
     fullname: {
         type: String,
@@ -26,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, "Senha é obrigatório!"],
-        //select: true para evitar vazamento de senhas
+        //select para evitar vazamento de senhas
         select: false,
         trim: true,
         // minlength: 7,
@@ -45,7 +42,6 @@ const UserSchema = new mongoose.Schema({
 );
 
 //hash da senha e verificação de mudança de senha para criar um novo hash
-
 //pre save antes de ir para o banco de dados
 UserSchema.pre("save", function (next) {
     //se refere ao doc de user atual sendo salvo
@@ -75,6 +71,5 @@ UserSchema.methods.generateAccessJWT = function () {
         expiresIn: '60m',
     });
 };
-
 
 export default mongoose.model("Users", UserSchema);

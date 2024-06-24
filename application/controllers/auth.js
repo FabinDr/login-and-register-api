@@ -1,8 +1,9 @@
 import User from '../models/user.js'
-import blacklist from '../models/blacklist.js'
+import Blacklist from '../models/blacklist.js'
 import bcrypt from 'bcrypt';
 
-//Para registrar um usuário
+//Controlador para registros de usuários
+// Vai receber os dados listados da solicitaça~o
 export async function Register(req, res) {
     const { fullname, username, email, password, birhtday, gender } = req.body;
     try {
@@ -14,7 +15,8 @@ export async function Register(req, res) {
             birhtday,
             gender
         });
-        //para checkar se a conta ja existe
+
+        //Vai checkar se a conta ja existe
         const exitingUser = await User.findOne({ email });
         if (exitingUser)
             return res.status(400).json({
@@ -23,8 +25,10 @@ export async function Register(req, res) {
                 message: "Você já possui uma conta com este e-mail. Por favor, faça o login."
             })
         const savedUser = await newUser.save();
-        //Retornar informações do usuário exceto a senha.
+
+        //Vai retornar as informações do usuário exceto a senha.
         const { password, role, ...user_data } = savedUser._doc;
+
         res.status(200).json({
             status: "success",
             data: [user_data],
@@ -42,8 +46,7 @@ export async function Register(req, res) {
     res.end();
 }
 
-//Fazer login de um usuário
-
+//Controlador para fazer login de um usuário
 export async function Login(req, res) {
     const { email } = req.body;
     try {
@@ -54,14 +57,14 @@ export async function Login(req, res) {
                 data: [],
                 message:
                     "Conta não existe. Por favor, tente novamente com as credenciais corretas.",
-            });
-        // se o User existe
-        // verificando/validando senha
+            }); // Buscamos um User no DB com base no email e incluimos a senhas mesmo que ela esteja oculta. Se não encontrae o user, retorna (401)
+
+        // se o User existe, vamos verificar se a senha é valida 
         const isPasswordValid = await bcrypt.compare(
             `${req.body.password}`,
             user.password
         );
-        // Retorna uma resposta não autorizada se não for válida
+        // Retorna (status 401) se não for válida
         if (!isPasswordValid)
             return res.status(401).json({
                 status: "failed",
@@ -72,13 +75,14 @@ export async function Login(req, res) {
         //Retornar informações do usuário exceto a senha.
         const { password, ...user_data } = user._doc;
 
+        // gerar Token e configurar cookie
         let options = {
-            maxAge: 3600000,
+            maxAge: 3600000, //60 min
             httoOnly: true,
             secure: true,
             sameSite: "None",
         };
-
+        // geramos um token para autenticção e um cookie ´SessionID´ com  token
         const token = user.generateAccessJWT();
         res.cookie("SessionID", token, options);
 
@@ -98,18 +102,17 @@ export async function Login(req, res) {
     res.end();
 }
 
-
-
-//loigout e lista negra do banco de dados
-
+//Controlador para loigout e lista negra do banco de dados
 export async function Logout(req, res) {
     try {
+
         const authHeader = req.headers['cookie'];
-
         if (!authHeader) return res.sendStatus(204);
-        const cookie = authHeader.split('=')[1];
 
+
+        const cookie = authHeader.split('=')[1];
         const accessToken = cookie.split(';')[0];
+
         const checkIfBlacklisted = await Blacklist.findOne({ token: accessToken });
 
         if (checkIfBlacklisted) return res.sendStatus(204);
@@ -121,7 +124,8 @@ export async function Logout(req, res) {
         await newBlacklist.save();
 
         res.setHeader('Clear-Site-Data', '"cookies"');
-        res.status(200).json({ message: 'You are logged out!' });
+        res.status(200).json({ message: 'Sua conta foi desconectada!' });
+
     } catch (err) {
         res.status(500).json({
             status: 'error',
@@ -130,12 +134,4 @@ export async function Logout(req, res) {
     }
     res.end();
 }
-
-
-
-
-
-
-
-
 // export default Register

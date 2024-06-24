@@ -9,13 +9,9 @@ const server = express();
 
 //cConfigurando o header
 server.use(cors());
-
 server.disable("x-powered-by");
-
 server.use(cookieParser());
-
 server.use(express.urlencoded({ extended: false }));
-
 server.use(express.json());
 
 //Connect DATABASE
