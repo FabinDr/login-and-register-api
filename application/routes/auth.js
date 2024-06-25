@@ -27,12 +27,11 @@ router.post(
         .notEmpty()//se não está vazio
         .isLength({ min: 4 })
         .withMessage("A senha deve conter pelo menos 4 caracteres."),
-    check("birthday")
+    check("birthday")//problemas com a data
         .optional({ checkFalsy: true })
         .isISO8601() //yyy/mm/dd
         .withMessage("Por favor, insira uma data de nascimento válida"),
     check("gender")
-        .optional({ checkFalsy: true })
         .isIn(['M', 'F'])
         .withMessage("Por favor, insira um gênero válido (M ou F)")
     ,
