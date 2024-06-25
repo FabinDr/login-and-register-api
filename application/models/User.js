@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         require: true,
-        unique: true
+        unique: true,
     },
     email: {
         type: String,
@@ -26,10 +26,9 @@ const UserSchema = new mongoose.Schema({
         //select para evitar vazamento de senhas
         select: false,
         trim: true,
-        // minlength: 7,
     },
     birthday: {
-        type: Date
+        type: String
     },
     gender: {
         type: String,
@@ -72,4 +71,4 @@ UserSchema.methods.generateAccessJWT = function () {
     });
 };
 
-export default mongoose.model("Users", UserSchema);
+export default mongoose.model("users", UserSchema);
