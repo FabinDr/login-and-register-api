@@ -6,7 +6,7 @@ import { SECRET_TOKEN } from '../config/index.js'
 const UserSchema = new mongoose.Schema({
     fullname: {
         type: String,
-        require: [true, "ATENÇAO! O seu nome completo é obrigatório!"],
+        require: [true, "ATENÇÃO! O seu nome completo é obrigatório!"],
     },
     username: {
         type: String,
@@ -36,10 +36,9 @@ const UserSchema = new mongoose.Schema({
         default: null
     },
 },
-    //adciona um "CreatedAt" e "updtadeAt"
+    //adiciona um "CreatedAt" e "updtadeAt"
     { timestamps: true }
 );
-
 //hash da senha e verificação de mudança de senha para criar um novo hash
 //pre save antes de ir para o banco de dados
 UserSchema.pre("save", function (next) {
@@ -60,7 +59,6 @@ UserSchema.pre("save", function (next) {
     })
 
 })
-
 //função para gerar tokens no login
 UserSchema.methods.generateAccessJWT = function () {
     let payload = {

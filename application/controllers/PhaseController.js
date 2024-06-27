@@ -12,7 +12,7 @@ export async function createPhase(req, res) {
 
         res.status(200).json({
             status: "success",
-            messege: "Sucesso! A fase foi criada",
+            message: "Sucesso! A fase foi criada",
             data: [savedPhase],
         })
     } catch (err) {
@@ -20,10 +20,9 @@ export async function createPhase(req, res) {
             status: "error",
             code: 500,
             data: [],
-            messege: "Ocorreu um erro interno no Servidor durante a operação."
+            message: "Ocorreu um erro interno no Servidor durante a operação."
         })
     }
-    res.end()
 };
 
 // Get/read/ listar 
@@ -33,7 +32,7 @@ export async function listPhase(req, res) {
         const phase = await Phase.find();
         res.status(200).json({
             status: "success",
-            messege: "Lista de fases obtidas com sucesso",
+            message: "Lista de fases obtidas com sucesso",
             data: [phase]
         })
     } catch (err) {
@@ -41,16 +40,15 @@ export async function listPhase(req, res) {
             status: "error",
             code: 500,
             data: [],
-            messege: "Ocorreu um erro interno no Servidor durante a operação."
+            message: "Ocorreu um erro interno no Servidor durante a operação."
         })
-        res.end()
     }
 }
 
 //Get phase by id
-export async function PhaseById(req, res) {
-    //Pegando um eletmento pelo id (desestruturaç~ao) 
-    const { id } = req.params; //req.params -- vai acessr um valor de parâmetro
+export async function phaseById(req, res) {
+    //Pegando um elemento pelo id (desestruturaç~ao) 
+    const { id } = req.params; //req.params -- vai acessar um valor de parâmetro
     try {
         const phase = await Phase.findById(id)
         if (!phase) {
@@ -74,7 +72,6 @@ export async function PhaseById(req, res) {
             message: "Ocorreu um erro interno no Servidor durante a operação."
         })
     }
-    res.end();
 }
 
 //Update/ Atualizar
@@ -93,7 +90,6 @@ export async function updatePhase(req, res) {
     }
     try {
         const updatedPhase = await Phase.findByIdAndUpdate(id, { namephase, orderphase, pointsphase }, { new: true });
-
         //verifica se a fase foi atualizada e encontrada dps de (findByIdAndUpdate) 
         if (!updatedPhase) {
             return res.status(404).json({
@@ -116,7 +112,6 @@ export async function updatePhase(req, res) {
             message: "Ocorreu um erro interno no Servidor durante a operação."
         });
     }
-    res.end();
 }
 
 //Delete
@@ -142,8 +137,7 @@ export async function deletePhase(req, res) {
             status: "error",
             code: 500,
             data: [],
-            message: "Ocorreu um erro interno no Seridor durante a operação."
+            message: "Ocorreu um erro interno no Servidor durante a operação."
         });
     }
-    res.end();
 }

@@ -31,7 +31,7 @@ app.get("/application", (req, res) => {
     } catch (error) {
         res.status(500).json({
             status: "error",
-            message: "Ocorru um erro interno no Servidor (Caminho/routers/index"
+            message: "Ocorreu um erro interno no Servidor (Caminho/routers/index"
         })
     }
 })

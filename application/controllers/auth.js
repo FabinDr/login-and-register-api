@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 export async function Register(req, res) {
     const { fullname, username, email, password, birthday, gender } = req.body;
     try {
-        //Vai verificar se a conta ja existe (Email)
+        //Vai verificar se a conta ja existe
         const exitingUser = await User.findOne({ email });
         if (exitingUser)
             return res.status(400).json({
@@ -56,7 +56,6 @@ export async function Register(req, res) {
             message: "Ocorreu um erro interno no Servidor durante a operação (./controllers).",
         });
     }
-    res.end();
 }
 
 //Controlador para fazer login de um usuário
@@ -110,7 +109,6 @@ export async function Login(req, res) {
             message: "Ocorreu um erro interno no Servidor durante a operação.",
         });
     }
-    res.end();
 }
 
 //Controlador para loigout e lista negra do banco de dados
@@ -137,6 +135,4 @@ export async function Logout(req, res) {
             message: 'Ocorreu um erro interno no Servidor durante a operação.',
         });
     }
-    res.end();
 }
-// export default Register
